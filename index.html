@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Under Construction | My Portfolio</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Architects Daughter for a handwritten feel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the page */
+        body {
+            font-family: 'Architects Daughter', cursive;
+            /* Creating a blueprint grid background */
+            background-color: #1e3a8a; /* A deep blue */
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 2rem 2rem;
+        }
+
+        /* Keyframe animation for the SVG line drawing effect */
+        @keyframes draw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        /* Applying the animation to the SVG path */
+        .drawing-animation {
+            /* The total length of the SVG path. This is a key part of the animation. */
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            /* Animation properties: name, duration, timing function, and fill mode */
+            animation: draw 3s linear forwards;
+        }
+    </style>
+</head>
+<body class="text-white">
+
+    <!-- Main container to center the content -->
+    <div class="flex flex-col items-center justify-center min-h-screen p-6 text-center">
+
+        <!-- Animated SVG wireframe -->
+        <svg class="w-48 h-48 mb-8" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <!-- The path is a simple representation of a website layout -->
+            <path class="drawing-animation" fill="none" stroke="white" stroke-width="4"
+                  d="M20,20 H180 V180 H20 Z M20,60 H180 M50,90 H150 M50,110 H150 M50,130 H150 M50,150 H150" />
+        </svg>
+
+        <!-- Main heading -->
+        <h1 class="text-5xl md:text-7xl font-bold mb-4 text-cyan-200 tracking-wider">
+            Drafting...
+        </h1>
+
+        <!-- Subheading -->
+        <p class="text-xl md:text-2xl text-gray-200 max-w-2xl">
+            The blueprints are laid out and construction is underway.
+            <br>
+            My new portfolio will be ready soon!
+        </p>
+
+    </div>
+
+</body>
+</html>
