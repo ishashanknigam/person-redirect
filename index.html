@@ -3,19 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Establishing Connection | Shashank Nigam</title>
+    <title>Analyzing Transmission... | Shashank Nigam</title>
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Exo 2 for a modern, techy look -->
+    <!-- Google Fonts: VT323 for a retro-futuristic console look -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <style>
         /* Custom styles for the page */
         body {
-            font-family: 'Exo 2', sans-serif;
-            background-color: #000005; /* Near black */
-            color: #e5e7eb; /* Light gray */
+            font-family: 'VT323', monospace;
+            /* A dark background with a radial gradient to create a focal point */
+            background-color: #0c0a1a;
+            background-image: radial-gradient(circle, rgba(76, 29, 149, 0.3) 0%, rgba(2, 6, 23, 0) 60%);
+            color: #a5f3fc; /* Light cyan */
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -23,114 +25,99 @@
             min-height: 100vh;
         }
 
-        /* The main container for the scene, enabling 3D transforms */
-        .scene {
-            perspective: 1000px;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* The vortex container that will react to mouse movement */
-        .vortex-container {
-            position: absolute;
-            width: 80vmin;
-            height: 80vmin;
-            transform-style: preserve-3d;
-            transition: transform 0.1s ease-out;
-        }
-
-        /* Styling for each ring of the vortex */
-        .ring {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 2px solid;
-            transform-style: preserve-3d;
-            animation: rotate 10s linear infinite;
-        }
-
-        /* Unique colors, sizes, and animation speeds for each ring to create depth */
-        .ring:nth-child(1) { border-color: #ec4899; animation-duration: 8s; }
-        .ring:nth-child(2) { transform: scale(0.9) rotateY(90deg); border-color: #d946ef; animation-duration: 9s; animation-direction: reverse; }
-        .ring:nth-child(3) { transform: scale(0.8) rotateY(80deg); border-color: #a855f7; animation-duration: 10s; }
-        .ring:nth-child(4) { transform: scale(0.7) rotateY(70deg); border-color: #8b5cf6; animation-duration: 11s; animation-direction: reverse; }
-        .ring:nth-child(5) { transform: scale(0.6) rotateY(60deg); border-color: #6366f1; animation-duration: 12s; }
-        .ring:nth-child(6) { transform: scale(0.5) rotateY(50deg); border-color: #3b82f6; animation-duration: 13s; animation-direction: reverse; }
-        .ring:nth-child(7) { transform: scale(0.4) rotateY(40deg); border-color: #22d3ee; animation-duration: 14s; }
-        .ring:nth-child(8) { transform: scale(0.3) rotateY(30deg); border-color: #67e8f9; animation-duration: 15s; animation-direction: reverse; }
-        .ring:nth-child(9) { transform: scale(0.2) rotateY(20deg); border-color: #a7f3d0; animation-duration: 16s; }
-        .ring:nth-child(10) { transform: scale(0.1) rotateY(10deg); border-color: #f0fdf4; animation-duration: 17s; animation-direction: reverse; }
-
-        /* Keyframe animation for the continuous rotation */
-        @keyframes rotate {
-            from { transform: rotateZ(0deg) rotateX(75deg); }
-            to { transform: rotateZ(360deg) rotateX(75deg); }
-        }
-
-        /* The content container, placed on top of the animation */
+        /* The main content container */
         .content {
-            position: relative;
-            z-index: 10;
             text-align: center;
-            padding: 1rem;
-            text-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+            padding: 2rem;
+        }
+
+        /* Styling for the main decryption text */
+        #decryption-text {
+            font-size: 3rem; /* 48px */
+            line-height: 1;
+            color: #67e8f9; /* Brighter cyan */
+            text-shadow: 0 0 5px #67e8f9, 0 0 15px #0ea5e9;
+            min-height: 48px; /* Prevent layout shift */
+            letter-spacing: 0.2em;
+        }
+
+        /* Styling for the status text lines */
+        .status-line {
+            display: block;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        /* Stagger the animation for each status line */
+        .status-line:nth-child(1) { animation-delay: 3.5s; }
+        .status-line:nth-child(2) { animation-delay: 4s; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
 <body>
 
-    <div class="scene">
-        <!-- The animated vortex -->
-        <div class="vortex-container">
-            <div class="ring"></div>
-            <div class="ring"></div>
-            <div class="ring"></div>
-            <div class="ring"></div>
-            <div class="ring"></div>
-            <div class="ring"></div>
-            <div class="ring"></div>
-            <div class="ring"></div>
-            <div class="ring"></div>
-            <div class="ring"></div>
+    <!-- Main Content -->
+    <div class="content">
+        <p class="text-lg text-purple-300 mb-4">[INCOMING TRANSMISSION]</p>
+        
+        <!-- The text that will be decrypted -->
+        <h1 id="decryption-text"></h1>
+
+        <div class="mt-8 text-lg text-cyan-200">
+            <span class="status-line">&gt; Signal Source: Unknown</span>
+            <span class="status-line">&gt; Status: Decryption complete. Portfolio interface rendering...</span>
         </div>
 
-        <!-- The main text content -->
-        <div class="content">
-            <h1 class="text-4xl md:text-6xl font-bold uppercase tracking-widest">
-                Connecting
-            </h1>
-            <p class="text-lg md:text-xl text-gray-300 mt-4 max-w-xl">
-                A new nexus is forming. The site will materialize shortly.
-            </p>
-            <p class="text-xl font-semibold text-gray-400 tracking-wider mt-16">
-                Shashank Nigam
-            </p>
-        </div>
+        <p class="status-line mt-16 text-xl text-cyan-400">
+            Analyst: Shashank Nigam
+        </p>
     </div>
 
     <script>
-        // JavaScript for the interactive parallax effect
-        const scene = document.querySelector('.scene');
-        const vortex = document.querySelector('.vortex-container');
-        
-        // The strength of the parallax effect
-        const parallaxStrength = 20;
+        const textElement = document.getElementById('decryption-text');
+        const finalMessage = 'COMING SOON';
+        // A set of alien-like characters to cycle through
+        const alienChars = ['⏃', '⎅', '⎎', '⍀', '⍊', '⍜', '⍦', '⎅', '⎐', '⎖', '⏁', '⍫'];
+        const decryptionSpeed = 50; // Milliseconds per character change
+        const revealDelay = 150; // Milliseconds delay between revealing each letter
 
-        scene.addEventListener('mousemove', (e) => {
-            // Get the mouse position relative to the center of the screen
-            const x = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
-            const y = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+        function decryptMessage() {
+            let message = finalMessage.split('');
+            let decryptedMessage = Array(message.length).fill('');
 
-            // Apply a 3D rotation to the vortex container based on the mouse position
-            // This creates the illusion that the vortex is tilting towards/away from the cursor
-            vortex.style.transform = `rotateY(${x * parallaxStrength}deg) rotateX(${-y * parallaxStrength}deg)`;
-        });
+            message.forEach((char, index) => {
+                // Skip spaces
+                if (char === ' ') {
+                    decryptedMessage[index] = ' ';
+                    return;
+                }
+
+                // Set a timeout to start the decryption for each character
+                setTimeout(() => {
+                    let charInterval = setInterval(() => {
+                        // Display a random alien character
+                        let tempMessage = [...decryptedMessage];
+                        tempMessage[index] = alienChars[Math.floor(Math.random() * alienChars.length)];
+                        textElement.textContent = tempMessage.join('');
+                    }, decryptionSpeed);
+
+                    // After a short time, reveal the correct character and stop the interval
+                    setTimeout(() => {
+                        clearInterval(charInterval);
+                        decryptedMessage[index] = char;
+                        textElement.textContent = decryptedMessage.join('');
+                    }, 1000); // Duration of the scramble effect for each letter
+
+                }, index * revealDelay); // Stagger the start of each letter's decryption
+            });
+        }
+
+        // Start the animation on page load
+        decryptMessage();
     </script>
 
 </body>
